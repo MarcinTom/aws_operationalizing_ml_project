@@ -8,7 +8,7 @@
 - **SageMaker notebook instance** 
 I decided to use the cost efficient ml.t3.medium. Taking into consideration limited budget this one will be enough to fulfill required expectations.
 
-![image](print_screens/sagemaker_instance.jpg)
+![image](print_screens/sagemaker_instance.JPG)
 
 - **S3 bucket** 
 
