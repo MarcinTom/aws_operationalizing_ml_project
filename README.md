@@ -34,7 +34,7 @@ The instance had the Deep Learning AMI GPU PyTorch 2.2.2 which allowed to run th
 
 The image below shows the terminal connection with EC2 instance and  the saved model after running the script taken from **ec2train1.py**. 
 
-![image](print_screens/ami_used.JPG)
+![image](print_screens/training_models_on_EC2.JPG)
 
 
 The training process is very similar to the one done in SageMaker but it requires more manual setup and user interaction with EC2 instance to make sure that it's ready for the Python script execution. The logging and therefore visibility of the progress is limited and would require further coding. The multi-instance training using EC2 directly also requires further code development and it is not as straightforward as in SageMaker.  There is also no easy option to directly deploy the model and get a provisioned endpoint like that of SageMaker.
