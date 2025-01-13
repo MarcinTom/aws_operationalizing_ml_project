@@ -14,27 +14,27 @@ I decided to use the cost efficient ml.t3.medium. Taking into consideration limi
 
 I created a S3 bucket `mlproject-bucket` to store all required data
 
-![image](print_screens/s3bucket.jpg)
+![image](print_screens/s3bucket.JPG)
 
 - **Deployment**
 Initial training and deployment was done on a single instance `ml.m5.xlarge` instance.
 Afterwards same training and deployment was done using multi instance mode on 3 `ml.m5.xlarge` 
 
-![image](print_screens/endpoints.jpg)
+![image](print_screens/endpoints.JPG)
 
 ### Step 2: EC2 Training
 
 Next step was to create the EC2 instance for model training purposes and compare the results to SageMaker Notebook. As per the information available on Udacity page I tried to create EC2 instance based on Amazon Deep Learning AMI. However the latest Deep Learning images require base instances like:  G3, P3, P3dn, P4d, P4de, G5, G4dn, Inf1, Trn1 which are either very expensive or not available under Udacity classroom setup. After some investigation and looking for some solutions in the Udacity knowledge forum I decided to use `m5.xlarge` instance to keep costs at reasonable level.
 
-![image](print_screens/ec2_instance_final.jpg)
+![image](print_screens/ec2_instance_final.JPG)
 
 The instance had the Deep Learning AMI GPU PyTorch 2.2.2 which allowed to run the model training job script with no additional installation required.
 
-![image](print_screens/ami_used.jpg)
+![image](print_screens/ami_used.JPG)
 
 The image below shows the terminal connection with EC2 instance and  the saved model after running the script taken from **ec2train1.py**. 
 
-![image](print_screens/ami_used.jpg)
+![image](print_screens/ami_used.JPG)
 
 
 The training process is very similar to the one done in SageMaker but it requires more manual setup and user interaction with EC2 instance to make sure that it's ready for the Python script execution. The logging and therefore visibility of the progress is limited and would require further coding. The multi-instance training using EC2 directly also requires further code development and it is not as straightforward as in SageMaker.  There is also no easy option to directly deploy the model and get a provisioned endpoint like that of SageMaker.
@@ -46,15 +46,15 @@ Next step was to setup the AWS lambda function that would use one of the model e
 
 The new endpoint name was added to the lambda function setup as per the print screen below. Before running a successful test a permission setup for lambda had to be updated.
 
-![image](print_screens/lambda_function.jpg)
+![image](print_screens/lambda_function.JPG)
 
-![image](print_screens/deployed_lambda.jpg)
+![image](print_screens/deployed_lambda.JPG)
 
 - **Adding SageMaker permission to Lambda Functions**
 
 For successful implementation Lambda function needs proper permissions setup which is dome through IAM settings. As Lambda will use SageMaker model therefore I decided to add below policies:
 
-![image](print_screens/iam_permissions.jpg)
+![image](print_screens/iam_permissions.JPG)
 
 1. Amazon Lambda Full Access - for being able to execute and access functions. Deals with lambda specific operations.
 2. Amazon SageMaker Full Access - for access SageMaker related services such as deployed endpoints.
@@ -70,7 +70,7 @@ In general for any production projects based on AWS infrastructure there are few
 
 After attaching required policies I did a test run based on provided test case. It was successful and the results are visible below:
 
-![image](print_screens/testing_lambda.jpg)
+![image](print_screens/testing_lambda.JPG)
 
 ###  Step 5: Concurrency and auto-scaling
 
@@ -91,11 +91,11 @@ Reserved instances: 2 out of 900.
 Provisioned instances: 2 out of 2.
 ```
 
-![image](print_screens/concurrency.jpg)
+![image](print_screens/concurrency.JPG)
 
 
 - **Auto-scaling**
 
 Automatic scaling is necessary for SageMaker endpoints to enable response to high traffic. I decided to use the below setup and allow up to 3 instance to be created in case of higher demand. The higher the number of instances the bigger the cost. It depends also on the instance type and time of instance running which can be controlled by scale-in and scale-out parameters (for the exercise purposes I decided to leave default parameters for these)
 
-![image](print_screens/auto_scaling.jpg)
+![image](print_screens/auto_scaling.JPG)
